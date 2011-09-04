@@ -3,3 +3,5 @@
 .pydevproject
 .settings
 test*.cfg
+dist
+*.egg-info

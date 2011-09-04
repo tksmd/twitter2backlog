@@ -128,7 +128,7 @@ def create_issue(options,subject,mentions):
     mention を Backlog で見やすい形式に変換して一つの課題として登録する
     """
     # テンプレートの読み込み
-    tmpl_path = os.path.join(os.path.dirname(__file__), "timeline.tmpl")
+    tmpl_path = os.path.join(os.path.dirname(__file__), "tmpl","timeline.tmpl")
     f = open(tmpl_path, "r")
     tmpl = Template(unicode(f.read(), "UTF-8"))
     f.close()

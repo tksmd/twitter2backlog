@@ -74,10 +74,10 @@ class Twitter2BacklogTest(unittest.TestCase):
     def testMain1(self):        
         twitter_auth_file = os.path.join(os.path.dirname(__file__),"test_twitter.cfg")
         backlog_auth_file = os.path.join(os.path.dirname(__file__),"test_backlog.cfg")        
-        args = ["-D","2",
-                "--twitter_auth_file",twitter_auth_file,
-                "--backlog_auth_file",backlog_auth_file,
-                "--project","TEST"]
+        args = ["-D","2","-r",
+                "-T",twitter_auth_file,
+                "-B",backlog_auth_file,
+                "-p","TEST"]
         twitter2backlog.main(args)
 
 def test_main():
