@@ -24,12 +24,17 @@ setup(name="twitter2backlog",
       author_email = "someda@isenshi.com",
       url = "https://github.com/tksmd/twitter2backlog",
       platforms = "any",      
+      entry_points="""
+      # -*- Entry points: -*-
+      [console_scripts]
+      twitter2backlog = twitter2backlog:main
+      """,
       packages=["twitter2backlog"],
       package_dir={"twitter2backlog":"src/twitter2backlog"},
       package_data={"twitter2backlog":["tmpl/*.tmpl"]},
       install_requires=["tweepy","pytz","backloglib"],
       license="Apache Licence Version 2.0",
-      keywords = "backlog twitter",          
+      keywords = "backlog twitter",            
       classifiers = [
                      "Operating System :: OS Independent",
                      "Environment :: Console",

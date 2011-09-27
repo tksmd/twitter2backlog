@@ -43,8 +43,8 @@ class _OptionParser(OptionParser):
     def _setup(self):
         self.add_option("-r", "--run", dest="run", action="store_true", default=False, help="if set, only fetching twitter mentions")
         self.add_option("-t", "--timezone", dest="timezone", default="Asia/Tokyo", help="timezone string default Asia/Tokyo")
-        self.add_option("-H","--hours", dest="hours", default=0, type="int", action="callback", callback=_OptionParser.num_callback, help="period hours")
-        self.add_option("-D","--days", dest="days", default=1, type="int", action="callback", callback=_OptionParser.num_callback, help="period days")        
+        self.add_option("-H","--hours", dest="hours", default=0, type="int", action="callback", callback=_OptionParser.num_callback, help="period hours default 0")
+        self.add_option("-D","--days", dest="days", default=1, type="int", action="callback", callback=_OptionParser.num_callback, help="period days default 1")        
         
         tw_parser = OptionGroup(self, "Twitter Related Options")
         tw_parser.add_option("--consumer_key", dest="consumer_key", help="OAuth consumer key")
@@ -60,7 +60,7 @@ class _OptionParser(OptionParser):
         blg_parser.add_option("--space", dest="space", help="backlog space")
         blg_parser.add_option("-p","--project", dest="project", help="backlog project to register")
         blg_parser.add_option("-B","--backlog_auth_file", dest="backlog_auth_file", help="file contains Backlog access")    
-        blg_parser.add_option("--summary", dest="summary", default=_SUMMARY_FORMAT_,help="issue summary template string")        
+        blg_parser.add_option("--summary", dest="summary", default=_SUMMARY_FORMAT_,help="issue summary template string")
         self.add_option_group(blg_parser)
     
     @staticmethod
@@ -156,7 +156,7 @@ def create_issue(options,subject,mentions):
                           "description" : "\n".join(fmt_mentions)
                           })    
 
-def main(argv):
+def main(argv=sys.argv):
             
     parser = _create_parser()
     options = parser.parse_args(argv)[0]
@@ -172,7 +172,7 @@ def main(argv):
         print "No mentions were found and so no issues will be updated."
         return
     
-    subject = options.summary % {"num":num, "me" : res["me"].screen_name, "start" : res["start"].strftime(_DATE_FORMAT_), "end" : res["end"].strftime(_DATE_FORMAT_)}
+    subject = options.summary.decode("utf-8") % {"num":num, "me" : res["me"].screen_name, "start" : res["start"].strftime(_DATE_FORMAT_), "end" : res["end"].strftime(_DATE_FORMAT_)}
     print subject
     print "\n".join([x.local_created_at.strftime(_DATE_FORMAT_) + " " + x.text for x in mentions])
     
