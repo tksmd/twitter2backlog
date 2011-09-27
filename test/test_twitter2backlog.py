@@ -34,8 +34,9 @@ class OptionParserTest(unittest.TestCase):
         self.assertEqual(1, options.days)
         self.assertEquals(False, options.run)
         self.assertEquals("Asia/Tokyo",options.timezone)
+        self.assertEquals("@%(me)s %(num)d mentions from %(start)s to %(end)s", options.summary)        
         for k,v in options.__dict__.iteritems() :
-            if k not in ["hours","days","run","timezone"] :
+            if k not in ["hours","days","run","timezone", "summary"] :
                 self.assertFalse(v)        
         self.assertEquals(0,len(optargs))
 
@@ -50,8 +51,9 @@ class OptionParserTest(unittest.TestCase):
         self.assertEqual(2, options.days)
         self.assertEquals(False, options.run)
         self.assertEquals("Asia/Tokyo",options.timezone)
+        self.assertEquals("@%(me)s %(num)d mentions from %(start)s to %(end)s", options.summary)
         for k,v in options.__dict__.iteritems() :
-            if k not in ["hours","days","run","timezone"] :
+            if k not in ["hours","days","run","timezone","summary"] :
                 self.assertFalse(v)        
         self.assertEquals(0,len(optargs))        
                     
@@ -66,7 +68,22 @@ class OptionParserTest(unittest.TestCase):
         self.assertEqual(1, options.days)
         self.assertEquals(False, options.run)
         self.assertEquals("Asia/Tokyo",options.timezone)
+        self.assertEquals("@%(me)s %(num)d mentions from %(start)s to %(end)s", options.summary)        
         self.assertEquals(0,len(optargs))
+        
+    def testCreateParser4(self):
+        """
+        文字列の設定のテスト
+        """
+        parser = twitter2backlog._create_parser()
+        args = ["--summary",u"Twitter から @%(me)s 宛に %(num)d 件の mentions がありました [%(start)s - %(end)s]"]
+        (options,optargs) = parser.parse_args(args)
+        self.assertEqual(0, options.hours)
+        self.assertEqual(1, options.days)
+        self.assertEquals(False, options.run)
+        self.assertEquals("Asia/Tokyo",options.timezone)
+        self.assertEquals(u"Twitter から @%(me)s 宛に %(num)d 件の mentions がありました [%(start)s - %(end)s]", options.summary)                
+        self.assertEquals(0,len(optargs))        
 
 
 class Twitter2BacklogTest(unittest.TestCase):
@@ -77,7 +94,8 @@ class Twitter2BacklogTest(unittest.TestCase):
         args = ["-D","2","-r",
                 "-T",twitter_auth_file,
                 "-B",backlog_auth_file,
-                "-p","TEST"]
+                "-p","TEST",
+                "--summary",u"@%(me)s 宛に %(num)d 件の言及がありました [%(start)s - %(end)s]"]
         twitter2backlog.main(args)
 
 def test_main():

@@ -36,6 +36,7 @@ __version__ = "0.0.1"
 __author__ = "someda@isenshi.com"
 
 _DATE_FORMAT_ = "%Y/%m/%d %H:%M:%S"
+_SUMMARY_FORMAT_ = u"@%(me)s %(num)d mentions from %(start)s to %(end)s"
 
 class _OptionParser(OptionParser):
         
@@ -43,7 +44,7 @@ class _OptionParser(OptionParser):
         self.add_option("-r", "--run", dest="run", action="store_true", default=False, help="if set, only fetching twitter mentions")
         self.add_option("-t", "--timezone", dest="timezone", default="Asia/Tokyo", help="timezone string default Asia/Tokyo")
         self.add_option("-H","--hours", dest="hours", default=0, type="int", action="callback", callback=_OptionParser.num_callback, help="period hours")
-        self.add_option("-D","--days", dest="days", default=1, type="int", action="callback", callback=_OptionParser.num_callback, help="period days")    
+        self.add_option("-D","--days", dest="days", default=1, type="int", action="callback", callback=_OptionParser.num_callback, help="period days")        
         
         tw_parser = OptionGroup(self, "Twitter Related Options")
         tw_parser.add_option("--consumer_key", dest="consumer_key", help="OAuth consumer key")
@@ -59,6 +60,7 @@ class _OptionParser(OptionParser):
         blg_parser.add_option("--space", dest="space", help="backlog space")
         blg_parser.add_option("-p","--project", dest="project", help="backlog project to register")
         blg_parser.add_option("-B","--backlog_auth_file", dest="backlog_auth_file", help="file contains Backlog access")    
+        blg_parser.add_option("--summary", dest="summary", default=_SUMMARY_FORMAT_,help="issue summary template string")        
         self.add_option_group(blg_parser)
     
     @staticmethod
@@ -159,6 +161,9 @@ def main(argv):
     parser = _create_parser()
     options = parser.parse_args(argv)[0]
             
+    if not options.run :
+        print "dryrun... (use -r to create issue)"
+        
     res = find_mentions(options)
     mentions = res["mentions"]
 
@@ -167,10 +172,7 @@ def main(argv):
         print "No mentions were found and so no issues will be updated."
         return
     
-    if not options.run :
-        print "dryrun..."
-                
-    subject = "@%(me)s %(num)d mentions from %(start)s to %(end)s" % {"num":num, "me" : res["me"].screen_name, "start" : res["start"].strftime(_DATE_FORMAT_), "end" : res["end"].strftime(_DATE_FORMAT_)}
+    subject = options.summary % {"num":num, "me" : res["me"].screen_name, "start" : res["start"].strftime(_DATE_FORMAT_), "end" : res["end"].strftime(_DATE_FORMAT_)}
     print subject
     print "\n".join([x.local_created_at.strftime(_DATE_FORMAT_) + " " + x.text for x in mentions])
     

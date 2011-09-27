@@ -5,3 +5,4 @@
 test*.cfg
 dist
 *.egg-info
+build
