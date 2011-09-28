@@ -3,18 +3,23 @@
 twitter2backlog is a utility to collect twitter mentions to your account
 and post them to Backlog as an issue.
 
+![Overview](https://cacoo.com/diagrams/VPIA0D2s6Kp98LFI-B9C35.png)
 
-# INSTALL
+# Install
 
-## easy_install
+## pip
 
-If setuptools is installed on your system, you can install by
+If pip is installed on your system, you can install by
 
-    easy_install twitter2backlog
+    pip install twitter2backlog
+
+NOTE: pip installation itself is also very easy if you have setuptools like
+
+    easy_install pip
 
 ## source
 
-If you want to check the latest release, checkout source code then run setup.py.
+If you want to use the latest (unstable) release, checkout source code and then run setup.py.
 
     git clone git://github.com/tksmd/twitter2backlog.git
     python setup.py install
