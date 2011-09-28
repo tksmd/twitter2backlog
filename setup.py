@@ -18,7 +18,7 @@
 from setuptools import setup
 
 setup(name="twitter2backlog",
-      version="0.0.1",
+      version="0.0.2",
       description="a small utility to collect twitter mentions in a certain period and post them to backlog as an issue",
       author="Takashi SOMEDA",
       author_email = "someda@isenshi.com",
