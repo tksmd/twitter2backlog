@@ -32,7 +32,7 @@ Both of them have to contain authentication information to access their API.
 ## Twitter configuration
 
 First, you have to create your application on dev.twitter.com.
-To do this, first go https://dev.twitter.com/apps/new and fill in the form.
+To do this, go to https://dev.twitter.com/apps/new and fill in the form.
 Submitting the form will show you a detail information of your application
 and you will also find the "create my access token" button at the bottom of the page.
 Click the button and finally you'll get your own access token and access token secret.
@@ -60,8 +60,8 @@ Example is below,
 
 ## Run!
 
-For example, you have authentication files named twitter.cfg 
-and backlog.cfg, and then run
+After preparing two authentication files (see above as to details) 
+named twitter.cfg and backlog.cfg, and then run
 
     twitter2backlog -r -H 12 -T twitter.cfg -B backlog.cfg -p TEST
 
